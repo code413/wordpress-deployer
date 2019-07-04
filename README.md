@@ -24,10 +24,13 @@ Generate a new application key
 
     php artisan key:generate
     
+Add the User email and password to login 
+     SUPER_USER=
+     SUPER_PASSWORD=
+    
 Run the database migrations (Set the database connection in .env before migrating)
 
     php artisan migrate
-
 TL;DR command list
 
     git clone git@github.com:code413/wordpress-deployer.git
