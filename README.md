@@ -45,7 +45,11 @@ Make sure you set the correct database connection information before running the
     php artisan migrate
 
 ## Usage
-
+1. Create a profile with all the credentials. 
+2. Go to profiles and create replacements.
+3. Fillup the file path and file pattern if replacement type is file.
+4. Create version
+5. Deploy your new version.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
