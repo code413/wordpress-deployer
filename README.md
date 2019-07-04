@@ -1,5 +1,5 @@
 # Wordpress Deployer
-Deploy a Wordpress website from staging to live and revert.
+Deploy a Wordpress website from staging to live and revert. 
 
 ## Installation
 
