@@ -132,10 +132,10 @@ class ProfileController extends Controller
 
     protected function normalizeRequest(Request $request)
     {
-        $path_from = Str::startsWith('/', $request->path_from) ? $request->path_from : '/' . $request->path_from;
-        $path_to = Str::startsWith('/', $request->path_to) ? $request->path_to : '/' . $request->path_to;
-        $path_temp = Str::startsWith('/', $request->path_temp) ? $request->path_temp : '/' . $request->path_temp;
-        $path_symlink = Str::startsWith('/', $request->symlink) ? $request->symlink : '/' . $request->symlink;
+        $path_from = Str::startsWith($request->path_from,'/' ) ? $request->path_from : '/' . $request->path_from;
+        $path_to = Str::startsWith($request->path_to, '/') ? $request->path_to : '/' . $request->path_to;
+        $path_temp = Str::startsWith($request->path_temp, '/') ? $request->path_temp : '/' . $request->path_temp;
+        $path_symlink = Str::startsWith($request->symlink, '/') ? $request->symlink : '/' . $request->symlink;
 
         $path_from = Str::finish($path_from, '/');
         $path_to = Str::finish($path_to, '/');
