@@ -31,7 +31,18 @@ class updateConfig implements ShouldQueue
     public function handle()
     {
         $file = file_get_contents("{$this->profile->path_to}$this->name/wp-config.php");
-        $file = str_replace("define( 'DB_NAME', '$this->profile->db_name' )", "define( 'DB_NAME', '$this->name' )", $file);
+
+        $file = (explode("\n",$file));
+
+        foreach ($file as $i=>$item)
+        {
+            if (Str::containsAll($item,['DB_NAME',$this->profile->db_name]))
+            {
+                $file[$i] = "define( 'DB_NAME' , '" . $this->name ."' );";
+            }
+        }
+
+        $file = implode("\n", $file);
         file_put_contents("{$this->profile->path_to}$this->name/wp-config.php", $file);
     }
 }
