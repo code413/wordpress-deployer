@@ -55,7 +55,7 @@ class updateConfig implements ShouldQueue
        		$cmd = "mysql ";
         	$cmd .= $this->dbCredentials;
                 $cmd .= " GRANT ALL PRIVILEGES ON ";
-                $cmd .= $this->name . ".* TO '{$item}'@'localhost'";
+                $cmd .= $this->name . ".* TO '{$item}'@'%'";
 		
                 (new Process($cmd))->setTimeout(120)->run();
                 (new Process('FLUSH PRIVILEGES'))->setTimeout(120)->run();
