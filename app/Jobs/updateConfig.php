@@ -8,7 +8,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 class updateConfig implements ShouldQueue
 {
@@ -16,28 +18,48 @@ class updateConfig implements ShouldQueue
 
     protected $name;
     protected $profile;
+    protected $db;
+    protected $dbCredentials;
 
 
     public function __construct($name,Profile $profile)
     {
         $this->name = $name;
         $this->profile = $profile;
+
+        $db = [
+            'host' => $profile->db_host,
+            'name' => $profile->db_name,
+            'user' => $profile->db_user,
+            'password' => $this->decrypt($profile->db_password),
+        ];
+
+        /*Database credentials*/
+        $dbCredentials = " -h {$db['host']} --user={$db['user']} --password={$db['password']}";
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+
     public function handle()
     {
         $file = file_get_contents("{$this->profile->path_to}$this->name/wp-config.php");
-
         $file = (explode("\n",$file));
 
         foreach ($file as $i=>$item)
         {
-            if (Str::containsAll($item,['DB_NAME',$this->profile->db_name]))
+
+            if (Str::contains($item,'DB_USER')) {
+                $item = explode(',', $item);
+                $item = trim($item[1], ' ');
+                $item = substr($item, 1, strrpos($item, "'") - 1);
+
+                $cmd = "GRANT ALL PRIVILEGES ON ";
+                $cmd .= $this->name . ".* TO '{$item}'@'localhost'";
+
+                (new Process($cmd))->setTimeout(120)->run();
+                (new Process('FLUSH PRIVILEGES'))->setTimeout(120)->run();
+            }
+
+            if (Str::contains($item,'DB_NAME'))
             {
                 $file[$i] = "define( 'DB_NAME' , '" . $this->name ."' );";
             }
@@ -45,5 +67,16 @@ class updateConfig implements ShouldQueue
 
         $file = implode("\n", $file);
         file_put_contents("{$this->profile->path_to}$this->name/wp-config.php", $file);
+    }
+
+    protected function decrypt($string, $key = 'PrivateKey', $secret = 'SecretKey', $method = 'AES-256-CBC') {
+        // hash
+        $key = hash('sha256', $key);
+        // create iv - encrypt method AES-256-CBC expects 16 bytes
+        $iv = substr(hash('sha256', $secret), 0, 16);
+        // decode
+        $string = base64_decode($string);
+        // decrypt
+        return openssl_decrypt($string, $method, $key, 0, $iv);
     }
 }
