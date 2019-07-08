@@ -27,7 +27,7 @@ class updateConfig implements ShouldQueue
         $this->name = $name;
         $this->profile = $profile;
 
-        $db = [
+        $this->db = [
             'host' => $profile->db_host,
             'name' => $profile->db_name,
             'user' => $profile->db_user,
@@ -35,7 +35,7 @@ class updateConfig implements ShouldQueue
         ];
 
         /*Database credentials*/
-        $dbCredentials = " -h {$db['host']} --user={$db['user']} --password={$db['password']}";
+        $this->dbCredentials = " -h {$this->db['host']} --user={$this->db['user']} --password={$this->db['password']}";
     }
 
 
@@ -52,9 +52,11 @@ class updateConfig implements ShouldQueue
                 $item = trim($item[1], ' ');
                 $item = substr($item, 1, strrpos($item, "'") - 1);
 
-                $cmd = "GRANT ALL PRIVILEGES ON ";
+       		$cmd = "mysql ";
+        	$cmd .= $this->dbCredentials;
+                $cmd .= " GRANT ALL PRIVILEGES ON ";
                 $cmd .= $this->name . ".* TO '{$item}'@'localhost'";
-
+		
                 (new Process($cmd))->setTimeout(120)->run();
                 (new Process('FLUSH PRIVILEGES'))->setTimeout(120)->run();
             }
