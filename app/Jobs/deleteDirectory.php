@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Version;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,11 +16,12 @@ class deleteDirectory implements ShouldQueue
 
     protected $version;
     protected $destination;
-    protected $temporaryPath;
+
 
     public function __construct($version)
     {
         $this->version = $version;
+        $this->destination = Version::find($version)->profile->path_to;
     }
 
 
