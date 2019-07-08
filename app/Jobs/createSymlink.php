@@ -34,21 +34,18 @@ class createSymlink implements ShouldQueue
      */
     public function handle()
     {
-
+        /*Check if deploying from old version directory or not*/
         if (is_dir("{$this->destination}{$this->name}x"))
         {
-
             rename("{$this->destination}{$this->name}x","{$this->destination}{$this->name}");
-//            $cmd = "mv {$this->destination}{$this->name}x {$this->destination}{$this->name}";
-//            (new Process($cmd))->run();
         }
-
-        if (!is_link("{$this->targetSymlink}"))
+        /*Check symlink directory exists or not, then rename the old directory*/
+        if (is_dir($this->targetSymlink) && !is_link("{$this->targetSymlink}"))
         {
             rename("{$this->targetSymlink}", "{$this->targetSymlink}x");
         }
 
-
+        /*Create new symlink*/
         $cmd = "ln -snf {$this->destination}{$this->name} {$this->targetSymlink}";
         (new Process($cmd))->run();
     }
