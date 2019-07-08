@@ -36,7 +36,7 @@
                                 <a class="btn btn-sm"
                                    href="{{ action('ProfileController@edit',['id'=>$profile->id]) }}">
                                     <i class="fe fe-edit-2"></i></a>
-                                <a class="btn btn-sm text-danger" title="Delete"
+                                <a class="btn btn-sm text-danger confirmation-alert" title="Delete"
                                    href="{{ action('ProfileController@destroy',['id'=>$profile->id]) }}">
                                     <i class="fe fe-trash"></i></a>
                             </td>

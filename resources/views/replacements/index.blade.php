@@ -43,7 +43,7 @@
                             <td scope="row">{{$replacement->pattern ?? '-'}}</td>
                             <td class="text-center">
                                 <a class="btn btn-sm" title="Edit" href="{{ action('ReplacementController@edit',['id'=>$replacement->id]) }}"><i class="fe fe-edit-2"></i></a>
-                                <a class="btn btn-sm text-danger" title="Delete"
+                                <a class="btn btn-sm text-danger confirmation-alert" title="Delete"
                                    href="{{ action('ReplacementController@destroy',['replacement'=>$replacement]) }}"><i class="fe fe-trash"></i></a>
                             </td>
                         </tr>

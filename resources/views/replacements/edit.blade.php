@@ -27,16 +27,16 @@
                         </div>
                         <div class="form-group">
                             <label for="type" class="form-label">Type</label>
-                            <select name="type" class="form-control" id="type">
+                            <select name="type" class="form-control replacement-type" id="type">
                                 <option @if($replacement->type === 'Database') selected @endif>Database</option>
                                 <option @if($replacement->type === 'File') selected @endif>File</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group file-selection" {{ $replacement->type === 'Database' ? 'hidden' : ''}}>
                             <label for="path" class="form-label">Path</label>
                             <input id="path" type="text" name="path" class="form-control" value="{{$replacement->path}}" placeholder="path">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group file-selection" {{ $replacement->type === 'Database' ? 'hidden' : ''}}>
                             <label for="pattern" class="form-label">Pattern</label>
                             <input id="pattern" type="text" name="pattern" class="form-control" value="{{$replacement->pattern}}" placeholder="*.php">
                         </div>

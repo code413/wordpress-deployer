@@ -34,6 +34,8 @@ class ReplacementController extends Controller
             'from' => 'required',
             'to' => 'required',
             'type' => 'required',
+            'path' => 'required_if:type,File',
+            'pattern' => 'required_if:type,File'
         ]);
 
         Replacement::create(
@@ -64,7 +66,10 @@ class ReplacementController extends Controller
             'from' => 'required',
             'to' => 'required',
             'type' => 'required',
+            'path' => 'required_if:type,File',
+            'pattern' => 'required_if:type,File'
         ]);
+
         $replacement->update([
             'from'=>$request->from,
             'to'=>$request->to,

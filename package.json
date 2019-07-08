@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.8"
     },
     "dependencies": {
+        "jquery-confirm": "^3.3.4",
         "tabler": "^1.0.0",
         "tabler-ui": "0.0.34",
         "vue-router": "^3.0.6"

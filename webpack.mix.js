@@ -14,4 +14,5 @@ const mix = require('laravel-mix')
 mix.webpackConfig({devtool: 'source-map'})
     .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .browserSync('wordpress-deployer.test')
     .sourceMaps();

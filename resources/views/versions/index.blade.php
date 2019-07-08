@@ -49,7 +49,7 @@
                                 <td class="text-center">
                                     <a class="btn btn-sm text-success" title="Deploy"
                                                           href="{{ action('DeploymentsController',['id'=>$version->id]) }}"><i class="fe fe-upload-cloud"></i></a>
-                                    <a class="btn btn-sm text-danger" title="Delete"
+                                    <a class="btn btn-sm text-danger confirmation-alert" title="Delete"
                                        href="{{ action('VersionsController@destroy',['id'=>$version->id]) }}">
                                         <i class="fe fe-trash"></i></a>
                                 </td>
