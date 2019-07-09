@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 class createSymlink implements ShouldQueue
@@ -17,6 +17,7 @@ class createSymlink implements ShouldQueue
     protected $destination;
     protected $targetSymlink;
     protected $name;
+
     public function __construct($version)
     {
         $this->version = $version;
@@ -28,13 +29,11 @@ class createSymlink implements ShouldQueue
     public function handle()
     {
         /*Check if deploying from old version directory or not*/
-        if (is_dir("{$this->destination}{$this->name}x"))
-        {
-            rename("{$this->destination}{$this->name}x","{$this->destination}{$this->name}");
+        if (is_dir("{$this->destination}{$this->name}x")) {
+            rename("{$this->destination}{$this->name}x", "{$this->destination}{$this->name}");
         }
         /*Check symlink directory exists or not, then rename the old directory*/
-        if (is_dir($this->targetSymlink) && !is_link("{$this->targetSymlink}"))
-        {
+        if (is_dir($this->targetSymlink) && !is_link("{$this->targetSymlink}")) {
             rename("{$this->targetSymlink}", "{$this->targetSymlink}x");
         }
 

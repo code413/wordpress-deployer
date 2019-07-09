@@ -12,7 +12,7 @@ class Replacement extends Model
         'type',
         'path',
         'pattern',
-        'profile_id'
+        'profile_id',
     ];
 
     public function profile()

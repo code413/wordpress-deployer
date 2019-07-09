@@ -5,10 +5,10 @@ namespace App\Jobs;
 use App\Models\Profile;
 use App\Models\Version;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class createNewVersion implements ShouldQueue
 {
@@ -20,7 +20,6 @@ class createNewVersion implements ShouldQueue
     {
         $this->profile = $profile;
     }
-
 
     public function handle()
     {

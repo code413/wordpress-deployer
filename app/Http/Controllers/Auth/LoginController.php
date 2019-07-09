@@ -35,11 +35,10 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        if (User::all()->count() < 1)
-        {
+        if (User::all()->count() < 1) {
             User::create([
-                'name'=>'Admin',
-                'email'=> config('deployment.user.email'),
+                'name'    => 'Admin',
+                'email'   => config('deployment.user.email'),
                 'password'=> bcrypt(config('deployment.user.password')),
             ]);
         }
