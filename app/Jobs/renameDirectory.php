@@ -28,7 +28,6 @@ class renameDirectory implements ShouldQueue
 
     public function handle()
     {
-//        dd($this->version);
         $version = Version::where('is_active',1)->where('profile_id',$this->version->profile_id)->first();
         if (isset($version) && $version->id != $this->version->id)
         {

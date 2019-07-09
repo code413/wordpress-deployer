@@ -19,19 +19,12 @@ class createSymlink implements ShouldQueue
     protected $name;
     public function __construct($version)
     {
-
         $this->version = $version;
         $this->destination = $version->profile->path_to;
         $this->targetSymlink = $version->profile->symlink;
         $this->name = "v{$version->id}";
-
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         /*Check if deploying from old version directory or not*/
@@ -48,5 +41,7 @@ class createSymlink implements ShouldQueue
         /*Create new symlink*/
         $cmd = "ln -snf {$this->destination}{$this->name} {$this->targetSymlink}";
         (new Process($cmd))->run();
+        exec("sudo service nginx restart");
+
     }
 }
