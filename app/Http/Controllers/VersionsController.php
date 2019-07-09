@@ -110,16 +110,16 @@ class VersionsController extends Controller
 
         if (isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on')
         {
-            $this->turnOfMaintenance($slug,$version);
+            dispatch(new turnOfMaintenance($slug));
         }
         if (isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on')
         {
-          $this->updateGTM($slug,$version);
+            dispatch(new updateGTM($slug));
         }
 
         if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on')
         {
-            $this->updateIndexing($slug,$version);
+            dispatch(new updateIndexing($slug));
         }
 
         return back()->with('message', 'Version created successfully ');
@@ -155,38 +155,4 @@ class VersionsController extends Controller
         return openssl_decrypt($string, $method, $key, 0, $iv);
     }
 
-    protected function turnOfMaintenance($slug,Version $version){
-        try{
-            dispatch(new turnOfMaintenance($slug));
-        }
-        catch (\Exception $e)
-        {
-            $this->delete($version);
-            return back()->with('error', 'Turn of maintenance mode failed.'.$e->getMessage());
-        }
-    }
-
-    protected function updateGTM($slug,Version $version)
-    {
-        try{
-            dispatch(new updateGTM($slug));
-        }
-        catch (\Exception $e)
-        {
-            $this->delete($version);
-            return back()->with('error', 'Update GTM failed.'.$e->getMessage());
-        }
-    }
-
-    protected function updateIndexing($slug,Version $version){
-
-        try{
-            dispatch(new updateIndexing($slug));
-        }
-        catch (\Exception $e)
-        {
-            $this->delete($version);
-            return back()->with('error', 'Update Indexing Failed.'.$e->getMessage());
-        }
-    }
 }

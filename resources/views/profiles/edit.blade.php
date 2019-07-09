@@ -80,6 +80,15 @@
 
                     <div class="pb-3">
                         <div class="form-group">
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox" for="enable-indexing">
+                                    <input
+                                            @if(isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') checked
+                                            @endif  type="checkbox" name="enable_indexing" class="custom-control-input"
+                                            id="enable-indexing">
+                                    <span class="custom-control-label">{{ __('Enable Search Engine Indexing') }}</span>
+                                </label>
+                            </div>
 
                             <label class="custom-control custom-checkbox" for="disable-maintenance">
                                 <input
@@ -88,6 +97,7 @@
                                     type="checkbox" name="disable_maintenance" class="custom-control-input"
                                     id="disable-maintenance">
                                 <span class="custom-control-label">{{ __('Disable maintenance') }}</span>
+                                <small>*Only compatible with Maintenance plugin</small>
                             </label>
                         </div>
                         <div class="form-group">
@@ -98,18 +108,10 @@
                                     @endif type="checkbox" name="enable_gtm" class="custom-control-input"
                                     id="enable-gtm">
                                 <span class="custom-control-label">{{ __('Enable Gtm') }}</span>
+                                <small>*Only compatible with Google Tag Manager for Wordpress plugin</small>
                             </label>
                         </div>
-                        <div class="form-group">
 
-                            <label class="custom-control custom-checkbox" for="enable-indexing">
-                                <input
-                                    @if(isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') checked
-                                    @endif  type="checkbox" name="enable_indexing" class="custom-control-input"
-                                    id="enable-indexing">
-                                <span class="custom-control-label">{{ __('Enable Indexing') }}</span>
-                            </label>
-                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
