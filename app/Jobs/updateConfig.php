@@ -52,13 +52,15 @@ class updateConfig implements ShouldQueue
                 $item = trim($item[1], ' ');
                 $item = substr($item, 1, strrpos($item, "'") - 1);
 
-       		$cmd = "mysql ";
-        	$cmd .= $this->dbCredentials;
-                $cmd .= " GRANT ALL PRIVILEGES ON ";
-                $cmd .= $this->name . ".* TO '{$item}'@'%'";
-		
+                $cmd = "mysql ";
+                $cmd .= $this->dbCredentials;
+                $cmd .= " -e \"GRANT ALL PRIVILEGES ON ";
+                $cmd .= $this->name . ".* TO '{$item}'@'%'\"";
+
+
+                dd($cmd);
                 (new Process($cmd))->setTimeout(120)->run();
-                (new Process('FLUSH PRIVILEGES'))->setTimeout(120)->run();
+
             }
 
             if (Str::contains($item,'DB_NAME'))
