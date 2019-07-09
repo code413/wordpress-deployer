@@ -49,9 +49,9 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="db-name" class="form-label">Database Name</label>
-                                <input id="db-name" type="text" name="db_name" value="{{ $profile->db_name }}" class="form-control"
-                                       placeholder="database1" required>
+                                <label for="path-temp" class="form-label">Database storage path</label>
+                                <input id="path-temp" type="text" name="path_temp" class="form-control" value="{{ $profile->path_temp }}"
+                                       placeholder="/home/your/project/this-project/storage/app/temp/" required>
                             </div>
                         </div>
                     </div>
@@ -77,11 +77,7 @@
                         <input id="symlink" type="text" name="symlink" class="form-control" value="{{ $profile->symlink }}"
                                placeholder="/home/your/project/domain" required>
                     </div>
-                    <div class="form-group">
-                        <label for="path-temp" class="form-label">Database storage path</label>
-                        <input id="path-temp" type="text" name="path_temp" class="form-control" value="{{ $profile->path_temp }}"
-                               placeholder="/home/your/project/this-project/storage/app/temp/" required>
-                    </div>
+
                     <div class="pb-3">
                         <div class="form-group">
 

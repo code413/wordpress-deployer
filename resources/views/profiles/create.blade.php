@@ -43,8 +43,8 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="db-name" class="form-label">Database Name</label>
-                                <input id="db-name" type="text" name="db_name" value="{{old('db_name') }}" class="form-control"  placeholder="database1" required>
+                                <label for="path-temp" class="form-label">Database storage path</label>
+                                <input id="path-temp" type="text" name="path_temp" value="{{old('path_temp') }}" class="form-control" placeholder="/home/your/project/this-project/storage/app/temp/" required>
                             </div>
                         </div>
                     </div>
@@ -52,13 +52,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="path-from" class="form-label">Deployment path from</label>
+                                <label for="path-from" class="form-label">Project root path</label>
                                 <input id="path-from" type="text" name="path_from" value="{{old('path_from') }}" class="form-control"  placeholder="/home/your/project/directory/" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="path-to" class="form-label">Deployment path to</label>
+                                <label for="path-to" class="form-label">Deployment path</label>
                                 <input id="path-to" type="text" name="path_to" value="{{old('path_to') }}" class="form-control" placeholder="/home/your/project/new-directory/" required>
                             </div>
                         </div>
@@ -67,10 +67,7 @@
                         <label for="symlink" class="form-label">Symlink path</label>
                         <input id="symlink" type="text" name="symlink" value="{{old('symlink') }}" class="form-control"  placeholder="/home/your/project/domain" required>
                     </div>
-                    <div class="form-group">
-                        <label for="path-temp" class="form-label">Database storage path</label>
-                        <input id="path-temp" type="text" name="path_temp" value="{{old('path_temp') }}" class="form-control" placeholder="/home/your/project/this-project/storage/app/temp/" required>
-                    </div>
+
                     <div class="pb-3">
                         <div class="form-group">
                             <label class="custom-control custom-checkbox" for="disable-maintenance">
