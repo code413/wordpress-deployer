@@ -20,7 +20,8 @@ class Profile extends Model
         return $this->decrypt($this->db_password);
     }
 
-    protected function decrypt($string, $key = 'PrivateKey', $secret = 'SecretKey', $method = 'AES-256-CBC') {
+    protected function decrypt($string, $key = 'PrivateKey', $secret = 'SecretKey', $method = 'AES-256-CBC')
+    {
         // hash
         $key = hash('sha256', $key);
         // create iv - encrypt method AES-256-CBC expects 16 bytes

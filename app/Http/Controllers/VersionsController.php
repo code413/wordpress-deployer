@@ -18,9 +18,6 @@ use App\Jobs\updateIndexing;
 use App\Jobs\uploadNewDb;
 use App\Models\Profile;
 use App\Models\Version;
-use phpDocumentor\Reflection\DocBlock\Tags\Link;
-use test\Mockery\Fixtures\MethodWithVoidReturnType;
-
 
 class VersionsController extends Controller
 {
@@ -31,22 +28,21 @@ class VersionsController extends Controller
 
     public function index(Profile $profile)
     {
-        session()->flash('active','profile');
-        $versions = Version::where('profile_id',$profile->id)->orderBy('id', 'DESC')->paginate(20);
-        return view('versions.index',['versions'=>$versions,'profile'=>$profile]);
+        session()->flash('active', 'profile');
+        $versions = Version::where('profile_id', $profile->id)->orderBy('id', 'DESC')->paginate(20);
+
+        return view('versions.index', ['versions'=>$versions, 'profile'=>$profile]);
     }
 
     public function store(Profile $profile)
     {
         /*Check directory */
-        if (!is_dir("{$profile->path_from}"))
-        {
-            return redirect()->action('VersionsController@index',['profile'=>$profile])->with('error','Deployment path from not available');
+        if (!is_dir("{$profile->path_from}")) {
+            return redirect()->action('VersionsController@index', ['profile'=>$profile])->with('error', 'Deployment path from not available');
         }
 
         /*Create directory if not exists*/
-        if (!is_dir("{$profile->path_to}"))
-        {
+        if (!is_dir("{$profile->path_to}")) {
             mkdir("{$profile->path_to}");
         }
 
@@ -54,9 +50,9 @@ class VersionsController extends Controller
         $version = Version::create(['profile_id'=>$profile->id]);
 
         $db = [
-            'host' => $profile->db_host,
-            'name' => $profile->db_name,
-            'user' => $profile->db_user,
+            'host'     => $profile->db_host,
+            'name'     => $profile->db_name,
+            'user'     => $profile->db_user,
             'password' => $this->decrypt($profile->db_password),
         ];
 
@@ -67,62 +63,51 @@ class VersionsController extends Controller
         $slug = "v{$version->id}";
 
         /*Make directory for database dump*/
-        if (!is_dir($profile->path_temp))
-        {
+        if (!is_dir($profile->path_temp)) {
             mkdir($profile->path_temp);
         }
 
-
         /*Dump db, change db, upload db*/
-        try{
-            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql",$db, $dbCredentials));
-            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql",$profile));
+        try {
+            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db, $dbCredentials));
+            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
             dispatch(new createNewDb($slug));
-            dispatch(new uploadNewDb($slug,$dbCredentials,$profile->path_temp));
-        }
-        catch (\Exception $e)
-        {
+            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
+        } catch (\Exception $e) {
             $this->delete($version);
-            return back()->with('error',  $e->getMessage());
+
+            return back()->with('error', $e->getMessage());
         }
 
         /*Copy directory and replace*/
-        try{
-            dispatch(new copyDirectory($slug,$profile));
-            dispatch(new findAndReplaceInDirectory($profile,$slug));
-        }
-        catch (\Exception $e)
-        {
+        try {
+            dispatch(new copyDirectory($slug, $profile));
+            dispatch(new findAndReplaceInDirectory($profile, $slug));
+        } catch (\Exception $e) {
             $this->delete($version);
-            return back()->with('error',$e->getMessage());
-        }
 
+            return back()->with('error', $e->getMessage());
+        }
 
         /*Update wp-config file*/
-        try{
-            dispatch(new updateConfig($slug,$profile));
-        }
-        catch (\Exception $e)
-        {
+        try {
+            dispatch(new updateConfig($slug, $profile));
+        } catch (\Exception $e) {
             $this->delete($version);
-            return back()->with('error',$e->getMessage());
+
+            return back()->with('error', $e->getMessage());
         }
 
-        if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on')
-        {
+        if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') {
             dispatch(new updateIndexing($slug));
         }
 
-        if (isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on')
-        {
+        if (isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on') {
             dispatch(new turnOfMaintenance($slug));
         }
-        if (isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on')
-        {
+        if (isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on') {
             dispatch(new updateGTM($slug));
         }
-
-
 
         return back()->with('message', 'Version created successfully ');
     }
@@ -130,23 +115,24 @@ class VersionsController extends Controller
     public function destroy(Version $version)
     {
         $this->delete($version);
+
         return back()->with('message', 'Version deleted successfully.');
     }
 
-    protected function delete(Version $version){
-        try{
+    protected function delete(Version $version)
+    {
+        try {
             dispatch(new deleteDbFile($version->id));
             dispatch(new dropDb($version->id));
             dispatch(new deleteDirectory($version->id));
             dispatch(new deleteVersion($version->id));
-        }
-        catch (\Exception $e)
-        {
-            return back()->with('error',$e->getMessage());
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
-    protected function decrypt($string, $key = 'PrivateKey', $secret = 'SecretKey', $method = 'AES-256-CBC') {
+    protected function decrypt($string, $key = 'PrivateKey', $secret = 'SecretKey', $method = 'AES-256-CBC')
+    {
         // hash
         $key = hash('sha256', $key);
         // create iv - encrypt method AES-256-CBC expects 16 bytes
@@ -156,5 +142,4 @@ class VersionsController extends Controller
         // decrypt
         return openssl_decrypt($string, $method, $key, 0, $iv);
     }
-
 }

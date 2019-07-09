@@ -2,7 +2,7 @@
 
 return [
     'user' => [
-        'email' => env('SUPER_USER'),
+        'email'    => env('SUPER_USER'),
         'password' => env('SUPER_PASSWORD'),
-    ]
+    ],
 ];

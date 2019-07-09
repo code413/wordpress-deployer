@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
-
 use App\Models\Version;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 
 class DeployVersion implements ShouldQueue
@@ -41,8 +40,7 @@ class DeployVersion implements ShouldQueue
 
     protected function createSymlink($name)
     {
-        if (is_dir("{$this->destination}{$name}x"))
-        {
+        if (is_dir("{$this->destination}{$name}x")) {
             $cmd = "mv {$this->destination}{$name}x {$this->destination}{$name}";
             $this->run($cmd);
         }
@@ -53,19 +51,17 @@ class DeployVersion implements ShouldQueue
 
     protected function renameDirectory($id)
     {
-        $version = Version::where('is_active',1)->first();
-        if (isset($version) && $version->id != $id)
-        {
+        $version = Version::where('is_active', 1)->first();
+        if (isset($version) && $version->id != $id) {
             $cmd = "mv {$this->destination}v{$version->id} {$this->destination}v{$version->id}x";
             $this->run($cmd);
         }
-
     }
 
     protected function activate($id)
     {
         $version = Version::find($id);
-        Version::where('is_active',1)->where('profile_id', $version->profile_id)->update(['is_active'=>0]);
+        Version::where('is_active', 1)->where('profile_id', $version->profile_id)->update(['is_active'=>0]);
         $version->update(['is_active'=>1]);
     }
 
