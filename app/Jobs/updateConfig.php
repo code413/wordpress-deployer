@@ -57,8 +57,6 @@ class updateConfig implements ShouldQueue
                 $cmd .= " -e \"GRANT ALL PRIVILEGES ON ";
                 $cmd .= $this->name . ".* TO '{$item}'@'%'\"";
 
-
-                dd($cmd);
                 (new Process($cmd))->setTimeout(120)->run();
 
             }
