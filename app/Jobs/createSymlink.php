@@ -41,7 +41,5 @@ class createSymlink implements ShouldQueue
         /*Create new symlink*/
         $cmd = "ln -snf {$this->destination}{$this->name} {$this->targetSymlink}";
         (new Process($cmd))->run();
-        exec("sudo service nginx restart");
-
     }
 }
