@@ -108,6 +108,11 @@ class VersionsController extends Controller
             return back()->with('error',$e->getMessage());
         }
 
+        if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on')
+        {
+            dispatch(new updateIndexing($slug));
+        }
+
         if (isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on')
         {
             dispatch(new turnOfMaintenance($slug));
@@ -117,10 +122,7 @@ class VersionsController extends Controller
             dispatch(new updateGTM($slug));
         }
 
-        if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on')
-        {
-            dispatch(new updateIndexing($slug));
-        }
+
 
         return back()->with('message', 'Version created successfully ');
     }

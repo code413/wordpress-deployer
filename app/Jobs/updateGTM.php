@@ -23,11 +23,16 @@ class updateGTM implements ShouldQueue
     public function handle()
     {
         $value = $this->selectDB("$this->name.wp_options",'option_name','gtm4wp-options');
-        $value= unserialize($value[0]->option_value);
-        $value['gtm-env-gtm-auth'] = "";
-        $value['gtm-env-gtm-preview'] = "";
-        $value = serialize($value);
-        $this->updateDB("$this->name.wp_options","option_value",$value,"option_name",'gtm4wp-options');
+
+        if(isset($value[0]->option_value))
+        {
+            $value= unserialize($value[0]->option_value);
+            $value['gtm-env-gtm-auth'] = "";
+            $value['gtm-env-gtm-preview'] = "";
+            $value = serialize($value);
+            $this->updateDB("$this->name.wp_options","option_value",$value,"option_name",'gtm4wp-options');
+        }
+
     }
 
     protected function selectDB($tableName,$columnName,$columnValue)

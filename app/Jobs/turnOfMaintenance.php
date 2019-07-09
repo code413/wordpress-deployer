@@ -23,14 +23,18 @@ class turnOfMaintenance implements ShouldQueue
     public function handle()
     {
         $value = $this->selectDB($this->name.'.wp_options','option_name','maintenance_options');
-        $value = unserialize($value[0]->option_value);
 
-        array_shift($value);
-        $value = array_merge($value,['state'=>0]);
+        if (isset($value[0]->option_value)){
+            $value = unserialize($value[0]->option_value);
 
-        $value = serialize($value);
+            array_shift($value);
+            $value = array_merge($value,['state'=>0]);
 
-        $this->updateDB("$this->name.wp_options","option_value",$value,"option_name",'maintenance_options');
+            $value = serialize($value);
+
+            $this->updateDB("$this->name.wp_options","option_value",$value,"option_name",'maintenance_options');
+        }
+
     }
 
     protected function selectDB($tableName,$columnName,$columnValue)
