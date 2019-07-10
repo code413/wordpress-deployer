@@ -39,7 +39,7 @@ class ProfileController extends Controller
         Profile::create([
             'name'        => $request->name,
             'user_id'     => auth()->user()->id,
-            'db_name'     => $this->database($request),
+            'db_name'     => 'db-name',
             'db_user'     => $request->db_user,
             'db_password' => $this->encrypt($request->db_password),
             'db_host'     => $request->db_host,
@@ -69,7 +69,7 @@ class ProfileController extends Controller
 
         $profile->update([
             'name'        => $request->name,
-            'db_name'     => $this->database($request),
+            'db_name'     => 'db-name',
             'db_user'     => $request->db_user,
             'db_password' => $this->encrypt($request->db_password),
             'db_host'     => $request->db_host,
@@ -120,26 +120,7 @@ class ProfileController extends Controller
         return compact('path_from', 'path_to', 'path_temp', 'path_symlink');
     }
 
-    protected function database(Request $request)
-    {
-        $normalizedRequest = $this->normalizeRequest($request);
 
-        if (!file_exists($normalizedRequest['path_from'].'wp-config.php')) {
-            return back()->with('error', 'Project folder does not have wp-content file');
-        }
-
-        $file = file_get_contents($normalizedRequest['path_from'].'wp-config.php');
-        $file = (explode("\n", $file));
-
-        foreach ($file as $i=> $item) {
-            if (Str::contains($item, 'DB_NAME')) {
-                $item = explode(',', $item);
-                $item = trim($item[1], ' ');
-
-                return substr($item, 1, strrpos($item, "'") - 1) ?? substr($item, 1, strrpos($item, '"') - 1);
-            }
-        }
-    }
 
     public function validator(Request $request)
     {

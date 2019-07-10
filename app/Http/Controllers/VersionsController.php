@@ -18,6 +18,7 @@ use App\Jobs\updateIndexing;
 use App\Jobs\uploadNewDb;
 use App\Models\Profile;
 use App\Models\Version;
+use Illuminate\Support\Str;
 
 class VersionsController extends Controller
 {
@@ -49,9 +50,10 @@ class VersionsController extends Controller
         /*Create new version*/
         $version = Version::create(['profile_id'=>$profile->id]);
 
+
         $db = [
             'host'     => $profile->db_host,
-            'name'     => $profile->db_name,
+            'name'     => $this->dbName($profile),
             'user'     => $profile->db_user,
             'password' => $this->decrypt($profile->db_password),
         ];
@@ -141,5 +143,20 @@ class VersionsController extends Controller
         $string = base64_decode($string);
         // decrypt
         return openssl_decrypt($string, $method, $key, 0, $iv);
+    }
+
+    protected function dbName(Profile $profile){
+        $file = file_get_contents($profile->path_from.'wp-config.php');
+        $file = (explode("\n", $file));
+
+        foreach ($file as $i=> $item) {
+            if (Str::contains($item, 'DB_NAME')) {
+                $item = explode(',', $item);
+                $item = trim($item[1], ' ');
+
+                return substr($item, 1, strrpos($item, "'") - 1) ?? substr($item, 1, strrpos($item, '"') - 1);
+            }
+        }
+
     }
 }
