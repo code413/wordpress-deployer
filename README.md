@@ -33,10 +33,12 @@ Run the database migrations (Set the database connection in .env before migratin
     php artisan migrate
     
 In to make zero downtime put the code in ngnix config
+        
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         fastcgi_param DOCUMENT_ROOT $realpath_root;
         
 It should look like this, 
+    
     location ~ \.php$ {
         try_files     $uri =404;
 
