@@ -100,16 +100,12 @@ class VersionsController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
-        if (isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') {
-            dispatch(new updateIndexing($slug));
-        }
-
-        if (isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on') {
-            dispatch(new turnOfMaintenance($slug));
-        }
-        if (isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on') {
-            dispatch(new updateGTM($slug));
-        }
+        /*Search engine indexing*/
+        dispatch(new updateIndexing($slug,json_decode($profile->options)->enable_indexing));
+        /*Update maintenance mode*/
+        dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
+        /*Update GTM*/
+        dispatch(new updateGTM($slug,json_decode($profile->options)->enable_gtm));
 
         return back()->with('message', 'Version created successfully ');
     }
@@ -157,6 +153,5 @@ class VersionsController extends Controller
                 return substr($item, 1, strrpos($item, "'") - 1) ?? substr($item, 1, strrpos($item, '"') - 1);
             }
         }
-
     }
 }

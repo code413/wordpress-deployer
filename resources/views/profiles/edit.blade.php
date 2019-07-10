@@ -78,40 +78,93 @@
                                placeholder="/home/your/project/domain" required>
                     </div>
 
+{{--                    <div class="pb-3">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="custom-control custom-checkbox" for="enable-indexing">--}}
+{{--                                    <input--}}
+{{--                                            @if(isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') checked--}}
+{{--                                            @endif  type="checkbox" name="enable_indexing" class="custom-control-input"--}}
+{{--                                            id="enable-indexing">--}}
+{{--                                    <span class="custom-control-label">{{ __('Enable Search Engine Indexing') }}</span>--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
+
+{{--                            <label class="custom-control custom-checkbox" for="disable-maintenance">--}}
+{{--                                <input--}}
+{{--                                    @if(isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on') checked--}}
+{{--                                    @endif--}}
+{{--                                    type="checkbox" name="disable_maintenance" class="custom-control-input"--}}
+{{--                                    id="disable-maintenance">--}}
+{{--                                <span class="custom-control-label">{{ __('Disable maintenance') }}</span>--}}
+{{--                                <small>*Only compatible with Maintenance plugin</small>--}}
+{{--                            </label>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group">--}}
+
+{{--                            <label class="custom-control custom-checkbox" for="enable-gtm">--}}
+{{--                                <input--}}
+{{--                                    @if(isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on') checked--}}
+{{--                                    @endif type="checkbox" name="enable_gtm" class="custom-control-input"--}}
+{{--                                    id="enable-gtm">--}}
+{{--                                <span class="custom-control-label">{{ __('Enable Gtm') }}</span>--}}
+{{--                                <small>*Only compatible with Google Tag Manager for Wordpress plugin</small>--}}
+{{--                            </label>--}}
+{{--                        </div>--}}
+
+{{--                    </div>--}}
+
                     <div class="pb-3">
+
                         <div class="form-group">
-                            <div class="form-group">
-                                <label class="custom-control custom-checkbox" for="enable-indexing">
-                                    <input
-                                            @if(isset(json_decode($profile->options)->enable_indexing) && json_decode($profile->options)->enable_indexing == 'on') checked
-                                            @endif  type="checkbox" name="enable_indexing" class="custom-control-input"
-                                            id="enable-indexing">
-                                    <span class="custom-control-label">{{ __('Enable Search Engine Indexing') }}</span>
+                            <div class="form-label">Search Engine Indexing</div>
+                            <div class="custom-controls-stacked">
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="enable_indexing" value="yes"
+                                           @if(json_decode($profile->options)->enable_indexing == 'yes') checked @endif>
+                                    <span class="custom-control-label">Enable</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="enable_indexing" value="no"
+                                           @if(json_decode($profile->options)->enable_indexing == 'no') checked @endif>
+                                    <span class="custom-control-label">Disable</span>
                                 </label>
                             </div>
-
-                            <label class="custom-control custom-checkbox" for="disable-maintenance">
-                                <input
-                                    @if(isset(json_decode($profile->options)->disable_maintenance) && json_decode($profile->options)->disable_maintenance == 'on') checked
-                                    @endif
-                                    type="checkbox" name="disable_maintenance" class="custom-control-input"
-                                    id="disable-maintenance">
-                                <span class="custom-control-label">{{ __('Disable maintenance') }}</span>
-                                <small>*Only compatible with Maintenance plugin</small>
-                            </label>
                         </div>
+
                         <div class="form-group">
-
-                            <label class="custom-control custom-checkbox" for="enable-gtm">
-                                <input
-                                    @if(isset(json_decode($profile->options)->enable_gtm) && json_decode($profile->options)->enable_gtm == 'on') checked
-                                    @endif type="checkbox" name="enable_gtm" class="custom-control-input"
-                                    id="enable-gtm">
-                                <span class="custom-control-label">{{ __('Enable Gtm') }}</span>
-                                <small>*Only compatible with Google Tag Manager for Wordpress plugin</small>
-                            </label>
+                            <div class="form-label">Maintenance mode</div>
+                            <small>*Only compatible with Maintenance plugin</small>
+                            <div class="custom-controls-stacked">
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="disable_maintenance" value="yes"
+                                           @if(json_decode($profile->options)->disable_maintenance == 'yes') checked @endif>
+                                    <span class="custom-control-label">Enable</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="disable_maintenance" value="no"
+                                           @if(json_decode($profile->options)->disable_maintenance == 'no') checked @endif>
+                                    <span class="custom-control-label">Disable</span>
+                                </label>
+                            </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="form-label">GTM</div>
+                            <small>*Only compatible with Google Tag Manager for Wordpress plugin</small>
+                            <div class="custom-controls-stacked">
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="enable_gtm" value="yes"
+                                           @if(json_decode($profile->options)->enable_gtm == 'yes') checked @endif>
+                                    <span class="custom-control-label">Enable</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="enable_gtm" value="no"
+                                           @if(json_decode($profile->options)->enable_gtm == 'no') checked @endif>
+                                    <span class="custom-control-label">Disable</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
