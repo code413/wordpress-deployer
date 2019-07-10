@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\copyDirectory;
 use App\Jobs\createNewDb;
+use App\Jobs\deleteCache;
 use App\Jobs\deleteDbFile;
 use App\Jobs\deleteDirectory;
 use App\Jobs\deleteVersion;
@@ -77,17 +78,16 @@ class VersionsController extends Controller
             dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
         } catch (\Exception $e) {
             $this->delete($version);
-
             return back()->with('error', $e->getMessage());
         }
 
-        /*Copy directory and replace*/
+        /*Copy directory delete cache and replace*/
         try {
             dispatch(new copyDirectory($slug, $profile));
+            dispatch(new deleteCache( $profile->path_to.$slug));
             dispatch(new findAndReplaceInDirectory($profile, $slug));
         } catch (\Exception $e) {
             $this->delete($version);
-
             return back()->with('error', $e->getMessage());
         }
 
@@ -96,7 +96,6 @@ class VersionsController extends Controller
             dispatch(new updateConfig($slug, $profile));
         } catch (\Exception $e) {
             $this->delete($version);
-
             return back()->with('error', $e->getMessage());
         }
 
