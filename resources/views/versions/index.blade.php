@@ -4,7 +4,7 @@
     <div class="container">
         <div class="page-header">
             <h1 class="page-title">
-                Versions
+               {{$profile->name}} - Versions
             </h1>
             <div class="ml-auto">
                 <a href="{{action('ProfileController@index')}}" class="ml-auto">
