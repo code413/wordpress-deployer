@@ -38,7 +38,7 @@ class turnOfMaintenance implements ShouldQueue
         {
             $value = unserialize($value[0]->option_value);
             array_shift($value);
-            $value = array_merge( ['state'=>0],$value);
+            $value = array_merge( ['state'=>1],$value);
             $value = serialize($value);
             $this->updateDB("$this->name.wp_options", 'option_value', $value, 'option_name', 'maintenance_options');
         }
