@@ -70,23 +70,27 @@
 
                     <div class="pb-3">
                         <div class="form-group">
+                            <label class="custom-control custom-checkbox" for="enable-indexing">
+                                <input type="checkbox" name="enable_indexing" {{old('enable_indexing') == true ? 'checked' : '' }} class="custom-control-input" id="enable-indexing">
+                                <span class="custom-control-label">{{ __('Enable Indexing') }}</span>
+
+                            </label>
+                        </div>
+                        <div class="form-group">
                             <label class="custom-control custom-checkbox" for="disable-maintenance">
                                 <input type="checkbox" name="disable_maintenance" {{old('disable_maintenance') == true ? 'checked' : '' }} class="custom-control-input" id="disable-maintenance">
                                 <span class="custom-control-label">{{ __('Disable maintenance') }}</span>
+                                <small>*Only compatible with Maintenance plugin</small>
                             </label>
                         </div>
                         <div class="form-group">
                             <label class="custom-control custom-checkbox" for="enable-gtm">
                                 <input type="checkbox" name="enable_gtm" {{old('enable_gtm') == true ? 'checked' : '' }} class="custom-control-input" id="enable-gtm">
                                 <span class="custom-control-label">{{ __('Enable Gtm') }}</span>
+                                <small>*Only compatible with Google Tag Manager for Wordpress plugin</small>
                             </label>
                         </div>
-                        <div class="form-group">
-                            <label class="custom-control custom-checkbox" for="enable-indexing">
-                                <input type="checkbox" name="enable_indexing" {{old('enable_indexing') == true ? 'checked' : '' }} class="custom-control-input" id="enable-indexing">
-                                <span class="custom-control-label">{{ __('Enable Indexing') }}</span>
-                            </label>
-                        </div>
+
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
