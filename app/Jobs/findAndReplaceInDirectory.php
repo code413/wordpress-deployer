@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Symfony\Component\Process\Process;
 
 class findAndReplaceInDirectory implements ShouldQueue
 {
@@ -26,8 +25,12 @@ class findAndReplaceInDirectory implements ShouldQueue
 
     public function handle()
     {
+
         foreach ($this->profile->replacements()->where('type', 'File')->get() as $replacement) {
-            $this->replaceText($replacement->from, $replacement->to, $replacement->path, $replacement->pattern ?? null);
+
+            $path = $this->profile->path_to.$this->name.$replacement->path;
+
+            $this->replaceText($replacement->from, $replacement->to, $path, $replacement->pattern ?? null);
         }
     }
 
