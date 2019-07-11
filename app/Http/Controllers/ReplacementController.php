@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use App\Models\Replacement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ReplacementController extends Controller
 {
@@ -43,7 +44,7 @@ class ReplacementController extends Controller
                 'from'       => $request->from,
                 'to'         => $request->to,
                 'type'       => $request->type,
-                'path'       => $request->path,
+                'path'   => $this->normalizeRequest($request)['path'],
                 'pattern'    => $request->pattern,
                 'profile_id' => $profile->id,
             ]
@@ -74,7 +75,7 @@ class ReplacementController extends Controller
             'from'   => $request->from,
             'to'     => $request->to,
             'type'   => $request->type,
-            'path'   => $request->path,
+            'path'   => $this->normalizeRequest($request)['path'],
             'pattern'=> $request->pattern,
             ]);
 
@@ -88,5 +89,13 @@ class ReplacementController extends Controller
         $replacement->delete();
 
         return redirect()->action('ReplacementController@index', ['profile'=>$profile]);
+    }
+
+    protected function normalizeRequest(Request $request)
+    {
+        $path = Str::startsWith($request->path, '/') ? $request->path : '/'.$request->path;
+        $path= Str::endsWith($path, '/') ? substr($path, 0, -1) : $path;
+
+        return compact('path');
     }
 }

@@ -27,7 +27,7 @@ class findAndReplaceInDirectory implements ShouldQueue
     public function handle()
     {
         foreach ($this->profile->replacements()->where('type', 'File')->get() as $replacement) {
-            $this->replaceText($replacement->from, $replacement->to, $this->profile->path_to.$this->name.'/'.$replacement->path, $replacement->pattern ?? null);
+            $this->replaceText($replacement->from, $replacement->to, $replacement->path, $replacement->pattern ?? null);
         }
     }
 
