@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Symfony\Component\Process\Process;
 
 class findAndReplaceInDirectory implements ShouldQueue
 {
@@ -35,6 +36,6 @@ class findAndReplaceInDirectory implements ShouldQueue
         $cmd = "find $path -type f";
         $cmd .= isset($pattern) ? " -name \"$pattern\"" : '';
         $cmd .= " -exec sed -i 's#$from#$to#g' {} +";
-        $this->run($cmd);
+        (new Process($cmd))->setTimeout(120)->run();
     }
 }
