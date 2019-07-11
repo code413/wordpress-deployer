@@ -67,9 +67,37 @@ Make sure you set the correct database connection information before running the
 ## Usage
 1. Create a profile with all the credentials. 
 2. Go to profiles and create replacements.
-3. Fillup the file path and file pattern if replacement type is file.
+3. Fill up the file path and file pattern if replacement type is file.
 4. Create version
 5. Deploy your new version.
+
+### Create a profile
+1. Database user should have all the access to create or delete database, root user of the database,
+2. Database password should be sudo database password. 
+3. Database storage path, where you want to store the database file.
+4. Project root path should be the path of the project, which you want to copy.
+5. Deployment path is a path where you will keep the copied file from the root project path.
+6. Symlink path is the path of the website folder or the website path.
+
+### Create replacements
+1. Create a database replacement to create new versions. 
+2. Replacements from is the text you want replace.
+3. Replacements to is the text will be replaced.
+4. For the file replacement, use '/' to replace in root folder, or '/folder-name' to replace in folder,
+5. Use the pattern '*.php' to change the php file, use the file extensions to change the files.
+
+*Minimum 1 database replacements is required. 
+
+*Multiple replacements is allowed.
+
+
+## Workflow
+1. Create a profile.
+2. Create one/more replacements. 
+3. Create new version.
+4. Deploy the version. 
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
