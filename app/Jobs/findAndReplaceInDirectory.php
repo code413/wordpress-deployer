@@ -29,4 +29,12 @@ class findAndReplaceInDirectory implements ShouldQueue
             $this->replaceText($replacement->from, $replacement->to, $this->profile->path_to.$this->name.'/'.$replacement->path, $replacement->pattern ?? null);
         }
     }
+
+    protected function replaceText($from, $to, $path, $pattern = null)
+    {
+        $cmd = "find $path -type f";
+        $cmd .= isset($pattern) ? " -name \"$pattern\"" : '';
+        $cmd .= " -exec sed -i 's#$from#$to#g' {} +";
+        $this->run($cmd);
+    }
 }
