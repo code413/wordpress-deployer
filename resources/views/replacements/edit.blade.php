@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group" class="form-label">
                             <label for="to">Replace To</label>
-                            <input id="to" type="text" name="to" class="form-control"  value="{{$replacement->from}}" placeholder="New URL" required>
+                            <input id="to" type="text" name="to" class="form-control"  value="{{$replacement->to}}" placeholder="New URL" required>
                         </div>
                         <div class="form-group">
                             <label for="type" class="form-label">Type</label>
