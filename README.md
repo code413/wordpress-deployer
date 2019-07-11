@@ -31,6 +31,25 @@ Add the User email and password to login
 Run the database migrations (Set the database connection in .env before migrating)
 
     php artisan migrate
+    
+In to make zero downtime put the code in ngnix config
+        
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        
+It should look like this, 
+    
+    location ~ \.php$ {
+        try_files     $uri =404;
+
+        fastcgi_pass         unix:/var/run/php5-fpm.sock;
+
+        include  fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+    }
+    
 TL;DR command list
 
     git clone git@github.com:code413/wordpress-deployer.git
@@ -43,6 +62,7 @@ TL;DR command list
 Make sure you set the correct database connection information before running the migrations
 
     php artisan migrate
+   
 
 ## Usage
 1. Create a profile with all the credentials. 
