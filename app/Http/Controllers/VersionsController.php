@@ -72,10 +72,10 @@ class VersionsController extends Controller
 
         /*Dump db, change db, upload db*/
         try {
-//            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db, $dbCredentials));
-//            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
-//            dispatch(new createNewDb($slug));
-//            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
+            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db, $dbCredentials));
+            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
+            dispatch(new createNewDb($slug));
+            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
         } catch (\Exception $e) {
             $this->delete($version);
             return back()->with('error', $e->getMessage());
@@ -84,27 +84,27 @@ class VersionsController extends Controller
         /*Copy directory delete cache and replace*/
         try {
             dispatch(new copyDirectory($slug, $profile));
-//            dispatch(new deleteCache( $profile->path_to.$slug));
-//            dispatch(new findAndReplaceInDirectory($profile, $slug));
+            dispatch(new deleteCache( $profile->path_to.$slug));
+            dispatch(new findAndReplaceInDirectory($profile, $slug));
         } catch (\Exception $e) {
             $this->delete($version);
             return back()->with('error', $e->getMessage());
         }
 
         /*Update wp-config file*/
-//        try {
-//            dispatch(new updateConfig($slug, $profile));
-//        } catch (\Exception $e) {
-//            $this->delete($version);
-//            return back()->with('error', $e->getMessage());
-//        }
-//
-//        /*Search engine indexing*/
-//        dispatch(new updateIndexing($slug,json_decode($profile->options)->enable_indexing));
-//        /*Update maintenance mode*/
-//        dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
-//        /*Update GTM*/
-//        dispatch(new updateGTM($slug,$profile));
+        try {
+            dispatch(new updateConfig($slug, $profile));
+        } catch (\Exception $e) {
+            $this->delete($version);
+            return back()->with('error', $e->getMessage());
+        }
+
+        /*Search engine indexing*/
+        dispatch(new updateIndexing($slug,json_decode($profile->options)->enable_indexing));
+        /*Update maintenance mode*/
+        dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
+        /*Update GTM*/
+        dispatch(new updateGTM($slug,$profile));
 
         return back()->with('message', 'Version created successfully ');
     }
