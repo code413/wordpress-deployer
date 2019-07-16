@@ -128,6 +128,29 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="gtm_auth" class="form-label">Gtm id</label>
+                                    <input id="gtm_id" type="text" name="gtm_id" value="{{ $profile->gtm_id }}" class="form-control"  placeholder="GTM-XXXXXXX" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="gtm_auth" class="form-label">Gtm auth</label>
+                                    <input id="gtm_auth" type="text" name="gtm_auth" value="{{ $profile->gtm_auth }}" class="form-control"  placeholder="SfBBe8DjKNxULAU-klqasA" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="gtm_preview" class="form-label">Gtm preview</label>
+                                    <input id="gtm_preview" type="text" name="gtm_preview" value="{{ $profile->gtm_preview }}" class="form-control" placeholder="env-84" required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
