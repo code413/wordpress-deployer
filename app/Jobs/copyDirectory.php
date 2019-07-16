@@ -33,7 +33,7 @@ class copyDirectory implements ShouldQueue
         if (!is_dir("{$this->profile->path_to}$this->name")) {
             mkdir("{$this->profile->path_to}$this->name");
         }
-        $cmd = "cp -a {$this->profile->path_from}* {$this->profile->path_to}$this->name";
+        $cmd = "cp -a {$this->profile->path_from}. {$this->profile->path_to}$this->name";
         (new Process($cmd))->setTimeout(120)->run();
     }
 }
