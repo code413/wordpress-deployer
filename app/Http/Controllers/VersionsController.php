@@ -104,7 +104,7 @@ class VersionsController extends Controller
         /*Update maintenance mode*/
         dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
         /*Update GTM*/
-        dispatch(new updateGTM($slug,json_decode($profile->options)->enable_gtm));
+        dispatch(new updateGTM($slug,$profile));
 
         return back()->with('message', 'Version created successfully ');
     }

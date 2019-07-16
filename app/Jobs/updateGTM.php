@@ -15,11 +15,13 @@ class updateGTM implements ShouldQueue
 
     protected $name;
     protected $value;
+    protected $profile;
 
-    public function __construct($name,$value)
+    public function __construct($name,$profile)
     {
         $this->name = $name;
-        $this->value = $value;
+        $this->profile = $profile;
+        $this->value = json_decode($profile->options)->enable_gtm;
     }
 
     public function handle()
@@ -28,8 +30,9 @@ class updateGTM implements ShouldQueue
 
         if (isset($value[0]->option_value) && $this->value == 'yes') {
             $value = unserialize($value[0]->option_value);
-            $value['gtm-env-gtm-auth'] = '';
+            $value['gtm-env-gtm-auth'] =  '';
             $value['gtm-env-gtm-preview'] = '';
+            $value['gtm-code'] = isset($this->profile->gtm_id) ? $this->profile->gtm_id : '';
             $value = serialize($value);
             $this->updateDB("$this->name.wp_options", 'option_value', $value, 'option_name', 'gtm4wp-options');
         }
@@ -37,6 +40,8 @@ class updateGTM implements ShouldQueue
         if (isset($value[0]->option_value) && $this->value == 'no') {
             $value = unserialize($value[0]->option_value);
             $value['gtm-code'] = '';
+            $value['gtm-env-gtm-auth'] = isset($this->profile->gtm_auth) ? $this->profile->gtm_auth : '';
+            $value['gtm-env-gtm-preview'] = isset($this->profile->gtm_preview) ? $this->profile->gtm_preview : '';
             $value = serialize($value);
             $this->updateDB("$this->name.wp_options", 'option_value', $value, 'option_name', 'gtm4wp-options');
         }

@@ -48,6 +48,9 @@ class ProfileController extends Controller
             'symlink'     => $normalizedRequest['path_symlink'],
             'path_temp'   => $normalizedRequest['path_temp'],
             'options'     => json_encode($request->only(['disable_maintenance', 'enable_gtm', 'enable_indexing'])),
+            'gtm_id'      => $request->gtm_id,
+            'gtm_auth'      => $request->gtm_auth,
+            'gtm_preview'      => $request->gtm_preview,
         ]);
 
         return redirect()->action('ProfileController@index')
@@ -78,6 +81,9 @@ class ProfileController extends Controller
             'symlink'     => $normalizedRequest['path_symlink'],
             'path_temp'   => $normalizedRequest['path_temp'],
             'options'     => json_encode($request->only(['disable_maintenance', 'enable_gtm', 'enable_indexing'])),
+            'gtm_id'      => $request->gtm_id,
+            'gtm_auth'      => $request->gtm_auth,
+            'gtm_preview'      => $request->gtm_preview,
         ]);
 
         return redirect()->action('ProfileController@index')
