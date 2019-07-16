@@ -39,7 +39,7 @@ class updateGTM implements ShouldQueue
 
         if (isset($value[0]->option_value) && $this->value == 'no') {
             $value = unserialize($value[0]->option_value);
-            $value['gtm-code'] = '';
+            $value['gtm-code'] = isset($this->profile->gtm_id) ? $this->profile->gtm_id : '';
             $value['gtm-env-gtm-auth'] = isset($this->profile->gtm_auth) ? $this->profile->gtm_auth : '';
             $value['gtm-env-gtm-preview'] = isset($this->profile->gtm_preview) ? $this->profile->gtm_preview : '';
             $value = serialize($value);
