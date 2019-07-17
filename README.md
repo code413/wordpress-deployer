@@ -1,33 +1,35 @@
-# Wordpress Deployer
-Deploy a Wordpress website from staging to live and revert. 
+# Zero Downtime Wordpress Deployment
+Create and manage multiple environments for your Wordpress wesbite. Deploy from staging to production with zero downtime.
 
 ## Installation
 
-Clone the repository from Github
+Clone this repository from Github.
 
     $ git clone git@github.com:code413/wordpress-deployer.git
     
-Switch to the repo folder
+Switch to the repo directory.
 
     cd wordpress-deployer
     
-Install all the dependencies
+Install all the dependencies.
 
     composer install
     npm install
     
-Copy the example env file and make the required configuration changes in the .env file
+Copy the example env file and make the required configuration changes in the .env file.
 
     cp .env.example .env
     
-Generate a new application key
+Generate a new application key.
 
     php artisan key:generate
     
-Add the User email and password to login 
-     SUPER_USER=
-     SUPER_PASSWORD=
-    
+Define a Super User in your env file.
+```
+SUPER_USER=
+SUPER_PASSWORD=
+```
+
 Run the database migrations (Set the database connection in .env before migrating)
 
     php artisan migrate
