@@ -77,7 +77,7 @@ Make sure you set the correct database connection information before running the
 
 ### 2. Create replacements
 1. Replace from `website.com` to, replace to `new-website.com` in database or file.
-2. Replace `'*.php'` php files in, `'/wp-content'` or `'/wp-content/folder-name'` directory,
+2. Replace `*.php` php files in, `/wp-content` or `/wp-content/folder-name` directory,
 
 *Minimum 1 database replacements is required.
 
