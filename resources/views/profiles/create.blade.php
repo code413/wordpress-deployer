@@ -43,33 +43,18 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="path-temp" class="form-label">Database storage path</label>
-                                <input id="path-temp" type="text" name="path_temp" value="{{old('path_temp') }}" class="form-control" placeholder="/home/your/project/this-project/storage/app/temp/" required>
+                                <label for="path-from" class="form-label">Website path</label>
+                                <input id="path-from" type="text" name="path_from" value="{{old('path_from') }}" class="form-control"  placeholder="/home/your/project/directory/" required>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="path-from" class="form-label">Project root path</label>
-                                <input id="path-from" type="text" name="path_from" value="{{old('path_from') }}" class="form-control"  placeholder="/home/your/project/directory/" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="path-to" class="form-label">Deployment path</label>
-                                <input id="path-to" type="text" name="path_to" value="{{old('path_to') }}" class="form-control" placeholder="/home/your/project/new-directory/" required>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="symlink" class="form-label">Symlink path</label>
                         <input id="symlink" type="text" name="symlink" value="{{old('symlink') }}" class="form-control"  placeholder="/home/your/project/domain" required>
                     </div>
 
                     <div class="pb-3">
-
                         <div class="form-group">
                             <div class="form-label">Search Engine Indexing</div>
                             <div class="custom-controls-stacked">
@@ -116,7 +101,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="gtm_auth" class="form-label">Gtm id</label>
-                                        <input id="gtm_id" type="text" name="gtm_id" value="{{old('gtm_id') }}" class="form-control"  placeholder="GTM-XXXXXXX" required>
+                                        <input id="gtm_id" type="text" name="gtm_id" value="{{old('gtm_id') }}" class="form-control"  placeholder="GTM-XXXXXXX">
                                     </div>
                                 </div>
 

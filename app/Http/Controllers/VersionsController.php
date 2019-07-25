@@ -40,11 +40,12 @@ class VersionsController extends Controller
     {
         /*Check directory */
         if (!is_dir("{$profile->path_from}")) {
-            return redirect()->action('VersionsController@index', ['profile'=>$profile])->with('error', 'Deployment path from not available');
+            return redirect()->action('VersionsController@index', ['profile'=>$profile])->with('error', 'Website directory not available');
         }
 
         /*Create directory if not exists*/
         if (!is_dir("{$profile->path_to}")) {
+
             mkdir("{$profile->path_to}");
         }
 
@@ -100,11 +101,14 @@ class VersionsController extends Controller
         }
 
         /*Search engine indexing*/
-        dispatch(new updateIndexing($slug,json_decode($profile->options)->enable_indexing));
+        if(isset(json_decode($profile->options)->enable_indexing))
+            dispatch(new updateIndexing($slug,json_decode($profile->options)->enable_indexing));
         /*Update maintenance mode*/
-        dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
+        if(isset(json_decode($profile->options)->disable_maintenance))
+            dispatch(new turnOfMaintenance($slug,json_decode($profile->options)->disable_maintenance));
         /*Update GTM*/
-        dispatch(new updateGTM($slug,$profile));
+        if(isset(json_decode($profile->options)->enable_gtm))
+            dispatch(new updateGTM($slug,$profile));
 
         return back()->with('message', 'Version created successfully ');
     }

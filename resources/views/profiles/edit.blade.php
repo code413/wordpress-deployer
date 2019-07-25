@@ -38,7 +38,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -49,26 +48,9 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="path-temp" class="form-label">Database storage path</label>
-                                <input id="path-temp" type="text" name="path_temp" class="form-control" value="{{ $profile->path_temp }}"
-                                       placeholder="/home/your/project/this-project/storage/app/temp/" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="path-from" class="form-label">Deployment path from</label>
+                                <label for="path-from" class="form-label">Website path</label>
                                 <input id="path-from" type="text" name="path_from" value="{{ $profile->path_from }}"
                                        class="form-control" placeholder="/home/your/project/directory/" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="path-to" class="form-label">Deployment path to</label>
-                                <input id="path-to" type="text" name="path_to" value="{{ $profile->path_to }}" class="form-control"
-                                       placeholder="/home/your/project/new-directory/" required>
                             </div>
                         </div>
                     </div>
@@ -77,7 +59,6 @@
                         <input id="symlink" type="text" name="symlink" class="form-control" value="{{ $profile->symlink }}"
                                placeholder="/home/your/project/domain" required>
                     </div>
-
                     <div class="pb-3">
                         <div class="form-group">
                             <div class="form-label">Search Engine Indexing</div>
@@ -94,7 +75,6 @@
                                 </label>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="form-label">Maintenance mode</div>
                             <small>*Only compatible with Maintenance plugin</small>
@@ -132,10 +112,9 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="gtm_auth" class="form-label">Gtm id</label>
-                                    <input id="gtm_id" type="text" name="gtm_id" value="{{ $profile->gtm_id }}" class="form-control"  placeholder="GTM-XXXXXXX" required>
+                                    <input id="gtm_id" type="text" name="gtm_id" value="{{ $profile->gtm_id }}" class="form-control"  placeholder="GTM-XXXXXXX">
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-6">

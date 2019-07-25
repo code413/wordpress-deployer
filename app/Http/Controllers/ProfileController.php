@@ -44,9 +44,9 @@ class ProfileController extends Controller
             'db_password' => $this->encrypt($request->db_password),
             'db_host'     => $request->db_host,
             'path_from'   => $normalizedRequest['path_from'],
-            'path_to'     => $normalizedRequest['path_to'],
+            'path_to'     => storage_path('backup/'),
             'symlink'     => $normalizedRequest['path_symlink'],
-            'path_temp'   => $normalizedRequest['path_temp'],
+            'path_temp'   => storage_path('dbBackup/'),
             'options'     => json_encode($request->only(['disable_maintenance', 'enable_gtm', 'enable_indexing'])),
             'gtm_id'      => $request->gtm_id,
             'gtm_auth'      => $request->gtm_auth,
@@ -77,9 +77,7 @@ class ProfileController extends Controller
             'db_password' => $this->encrypt($request->db_password),
             'db_host'     => $request->db_host,
             'path_from'   => $normalizedRequest['path_from'],
-            'path_to'     => $normalizedRequest['path_to'],
             'symlink'     => $normalizedRequest['path_symlink'],
-            'path_temp'   => $normalizedRequest['path_temp'],
             'options'     => json_encode($request->only(['disable_maintenance', 'enable_gtm', 'enable_indexing'])),
             'gtm_id'      => $request->gtm_id,
             'gtm_auth'      => $request->gtm_auth,
@@ -114,13 +112,10 @@ class ProfileController extends Controller
     protected function normalizeRequest(Request $request)
     {
         $path_from = Str::startsWith($request->path_from, '/') ? $request->path_from : '/'.$request->path_from;
-        $path_to = Str::startsWith($request->path_to, '/') ? $request->path_to : '/'.$request->path_to;
-        $path_temp = Str::startsWith($request->path_temp, '/') ? $request->path_temp : '/'.$request->path_temp;
+
         $path_symlink = Str::startsWith($request->symlink, '/') ? $request->symlink : '/'.$request->symlink;
 
         $path_from = Str::finish($path_from, '/');
-        $path_to = Str::finish($path_to, '/');
-        $path_temp = Str::finish($path_temp, '/');
         $path_symlink = Str::endsWith($path_symlink, '/') ? substr($path_symlink, 0, -1) : $path_symlink;
 
         return compact('path_from', 'path_to', 'path_temp', 'path_symlink');
@@ -136,9 +131,7 @@ class ProfileController extends Controller
             'db_password' => 'required',
             'db_host'     => 'required',
             'path_from'   => 'required',
-            'path_to'     => 'required',
             'symlink'     => 'required',
-            'path_temp'   => 'required',
         ]);
     }
 }

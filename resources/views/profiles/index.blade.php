@@ -18,8 +18,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Path from</th>
-                        <th scope="col">Path to</th>
+                        <th scope="col">Website path</th>
+                        <th scope="col">New website path</th>
                         <th scope="col" class="text-center">Actions</th>
                     </tr>
                     </thead>
@@ -29,7 +29,7 @@
                             <td scope="row">{{$profile->id}}</td>
                             <td scope="row">{{$profile->name}}</td>
                             <td scope="row">{{$profile->path_from}}</td>
-                            <td scope="row">{{$profile->path_to}}</td>
+                            <td scope="row">{{$profile->symlink}}</td>
                             <td class="text-center">
                                 <a class="btn btn-sm" title="Version"
                                                       href="{{ action('VersionsController@index',['profile'=>$profile]) }}"><i class="fe fe-layers"></i></a>
