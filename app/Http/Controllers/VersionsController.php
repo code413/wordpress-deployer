@@ -19,6 +19,8 @@ use App\Jobs\updateIndexing;
 use App\Jobs\uploadNewDb;
 use App\Models\Profile;
 use App\Models\Version;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class VersionsController extends Controller
@@ -45,13 +47,11 @@ class VersionsController extends Controller
 
         /*Create directory if not exists*/
         if (!is_dir("{$profile->path_to}")) {
-
             mkdir("{$profile->path_to}");
         }
 
         /*Create new version*/
         $version = Version::create(['profile_id'=>$profile->id]);
-
 
         $db = [
             'host'     => $profile->db_host,
@@ -71,12 +71,30 @@ class VersionsController extends Controller
             mkdir($profile->path_temp);
         }
 
-        /*Dump db, change db, upload db*/
         try {
             dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db, $dbCredentials));
-            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
             dispatch(new createNewDb($slug));
             dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
+
+            $tables = DB::connection()->select("SELECT table_name FROM information_schema.tables WHERE table_schema = '{$slug}'");
+
+            foreach ($tables as $table)
+            {
+                $table = $slug.'.'.$table->table_name;
+                $row_count = 0;
+                if (!strripos($table,'cerber') && !strripos($table,'wp_icl_translation_status'))
+                {
+                    Log::info(['table',$table]);
+                    $row_count = DB::table($table)->count();
+                }
+
+                if ($row_count > 0)
+                {
+                    dispatch(new findAndReplaceInDbDump($table, $profile,1));
+                }
+            }
+
+
         } catch (\Exception $e) {
             $this->delete($version);
             return back()->with('error', $e->getMessage());
