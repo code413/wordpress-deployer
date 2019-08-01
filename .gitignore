@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 /public/css/*
 /public/js/*
+/storage/backup/*
+/storage/dbBackup/*
