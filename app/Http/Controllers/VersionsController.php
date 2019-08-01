@@ -12,6 +12,7 @@ use App\Jobs\dropDb;
 use App\Jobs\dumpSourceDb;
 use App\Jobs\findAndReplaceInDbDump;
 use App\Jobs\findAndReplaceInDirectory;
+use App\Jobs\ReplaceInDatabase;
 use App\Jobs\turnOfMaintenance;
 use App\Jobs\updateConfig;
 use App\Jobs\updateGTM;
@@ -71,28 +72,30 @@ class VersionsController extends Controller
             mkdir($profile->path_temp);
         }
 
+        /*Dump db, change db, upload db*/
         try {
-            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db, $dbCredentials));
-            dispatch(new createNewDb($slug));
-            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
+            dispatch(new dumpSourceDb("{$profile->path_temp}vtemp.sql", $db['name'], $dbCredentials));
+            dispatch(new createNewDb('vtemp'));
+            dispatch(new uploadNewDb('vtemp', $dbCredentials, $profile->path_temp));
 
-            $tables = DB::connection()->select("SELECT table_name FROM information_schema.tables WHERE table_schema = '{$slug}'");
+            $tables = DB::connection()->select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'vtemp'");
 
             foreach ($tables as $table)
             {
-                $table = $slug.'.'.$table->table_name;
+                $table = 'vtemp.'.$table->table_name;
                 $row_count = 0;
-                if (!strripos($table,'cerber') && !strripos($table,'wp_icl_translation_status'))
+                if (!strripos($table,'cerber') && !strripos($table,'wp_icl_translation_status') && DB::table($table)->count() > 0)
                 {
-                    Log::info(['table',$table]);
-                    $row_count = DB::table($table)->count();
+                    dispatch(new ReplaceInDatabase($table, $profile));
                 }
 
-                if ($row_count > 0)
-                {
-                    dispatch(new findAndReplaceInDbDump($table, $profile,1));
-                }
             }
+            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", 'vtemp', $dbCredentials));
+            dispatch(new dropDb('temp'));
+            dispatch(new deleteDbFile('temp',$profile));
+            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
+            dispatch(new createNewDb($slug));
+            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
 
 
         } catch (\Exception $e) {
@@ -141,7 +144,7 @@ class VersionsController extends Controller
     protected function delete(Version $version)
     {
         try {
-            dispatch(new deleteDbFile($version->id));
+            dispatch(new deleteDbFile($version->id, $version->profile));
             dispatch(new dropDb($version->id));
             dispatch(new deleteDirectory($version->id));
             dispatch(new deleteVersion($version->id));

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Profile;
 use App\Models\Version;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,11 +19,11 @@ class deleteDbFile implements ShouldQueue
     protected $destination;
     protected $temporaryPath;
 
-    public function __construct($version)
+    public function __construct($version, Profile $profile)
     {
         $this->version = $version;
         $version = Version::find($version);
-        $this->temporaryPath = $version->profile->path_temp;
+        $this->temporaryPath = $profile->path_temp;
     }
 
     public function handle()

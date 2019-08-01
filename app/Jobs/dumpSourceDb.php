@@ -30,7 +30,7 @@ class dumpSourceDb implements ShouldQueue
     {
         $cmd = 'mysqldump ';
         $cmd .= $this->dbCredentials;
-        $cmd .= "  {$this->db['name']}";
+        $cmd .= "  {$this->db}";
         $cmd .= "  > $this->path";
 
         (new Process($cmd))->setTimeout(120)->run();
