@@ -37,7 +37,7 @@ class ReplaceInDatabase implements ShouldQueue
 
 
         $data = DB::connection()->select( "SELECT * FROM {$this->name}");
-//        $data = DB::connection()->select( "SELECT * FROM yoodo_staging.wp_postmeta where meta_id = 9754");
+
 
         foreach ($this->profile->replacements()->where('type', 'Database')->get() as $replacement) {
 
@@ -103,7 +103,7 @@ class ReplaceInDatabase implements ShouldQueue
             unset( $_tmp );
         }
         // Submitted by Tina Matter
-        elseif ( is_object( $data ) ) {
+        /*elseif ( is_object( $data ) ) {
             // $data_class = get_class( $data );
             $_tmp = $data; // new $data_class( );
             $props = get_object_vars( $data );
@@ -117,7 +117,7 @@ class ReplaceInDatabase implements ShouldQueue
             if ( is_string( $data ) ) {
                 $data = str_replace( $from, $to, $data );
             }
-        }
+        }*/
         if ( $serialised )
             return serialize( $data );
 
