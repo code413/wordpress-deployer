@@ -103,16 +103,16 @@ class ReplaceInDatabase implements ShouldQueue
             unset( $_tmp );
         }
         // Submitted by Tina Matter
-        elseif ( is_object( $data ) ) {
-            // $data_class = get_class( $data );
-            $_tmp = $data; // new $data_class( );
-            $props = get_object_vars( $data );
-            foreach ( $props as $key => $value ) {
-                $_tmp->$key = $this->recursive_unserialize_replace( $from, $to, $value, false );
-            }
-            $data = $_tmp;
-            unset( $_tmp );
-        }
+//        elseif ( is_object( $data ) ) {
+//            // $data_class = get_class( $data );
+//            $_tmp = $data; // new $data_class( );
+//            $props = get_object_vars( $data );
+//            foreach ( $props as $key => $value ) {
+//                $_tmp->$key = $this->recursive_unserialize_replace( $from, $to, $value, false );
+//            }
+//            $data = $_tmp;
+//            unset( $_tmp );
+//        }
         else {
             if ( is_string( $data ) ) {
                 $data = str_replace( $from, $to, $data );
