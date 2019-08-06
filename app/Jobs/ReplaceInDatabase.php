@@ -36,11 +36,10 @@ class ReplaceInDatabase implements ShouldQueue
         $where_sql = '';
 
 
-        $data = DB::connection()->select( "SELECT * FROM {$this->name}");
 
 
         foreach ($this->profile->replacements()->where('type', 'Database')->get() as $replacement) {
-
+            $data = DB::connection()->select( "SELECT * FROM {$this->name}");
             foreach ($data as $datum)
             {
                 foreach ($columns as $column)
