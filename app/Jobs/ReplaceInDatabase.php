@@ -47,13 +47,13 @@ class ReplaceInDatabase implements ShouldQueue
                 {
                     $field = $column->Field;
                     if ($column->Key == 'PRI')
-                        $where_sql = "{$column->Field} = " .  $datum->$field ;
+                        $where_sql = "`{$column->Field}` = " .  $datum->$field ;
 
                     $data =  $this->recursive_unserialize_replace( $replacement->from, $replacement->to, $datum->$field );
 
                     if ($data != $datum->$field)
                     {
-                        $update_sql = "{$field} = '{$data}'"  ;
+                        $update_sql = "`{$field}` = '{$data}'"  ;
                         if ($update_sql != '' && @unserialize( $data ))
                         {
                             $this->updateDB($this->name,$update_sql,$where_sql);
@@ -67,7 +67,7 @@ class ReplaceInDatabase implements ShouldQueue
 
     protected function updateDB($tableName, $update_sql, $where_sql)
     {
-        $query = "UPDATE $tableName";
+        $query = "UPDATE `$tableName`";
         $query .= " SET ".  $update_sql;
         $query .= " WHERE " .$where_sql ;
         DB::connection()->statement($query);
@@ -120,6 +120,8 @@ class ReplaceInDatabase implements ShouldQueue
         }
         if ( $serialised )
             return serialize( $data );
+
+        $data = str_replace( "'", "\'", $data );
 
         return $data;
     }
