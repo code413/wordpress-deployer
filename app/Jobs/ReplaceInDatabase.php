@@ -53,11 +53,9 @@ class ReplaceInDatabase implements ShouldQueue
 
                     if ($data != $datum->$field)
                     {
+                        $data = addslashes($data);
                         $update_sql = "{$field} = '{$data}'"  ;
-                        if ($update_sql != '' && @unserialize( $data ))
-                        {
-                            $this->updateDB($this->name,$update_sql,$where_sql);
-                        }
+                        $this->updateDB($this->name,$update_sql,$where_sql);
                     }
                 }
             }
@@ -116,12 +114,12 @@ class ReplaceInDatabase implements ShouldQueue
         else {
             if ( is_string( $data ) ) {
                 $data = str_replace( $from, $to, $data );
+//                $data = str_replace( "'", "%91", $data );
             }
         }
         if ( $serialised )
             return serialize( $data );
 
-        $data = str_replace( "'", "\'", $data );
 
         return $data;
     }

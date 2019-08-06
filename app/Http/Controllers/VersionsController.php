@@ -74,15 +74,14 @@ class VersionsController extends Controller
 
         /*Dump db, change db, upload db*/
         try {
-            dispatch(new dumpSourceDb("{$profile->path_temp}vtemp.sql", $db['name'], $dbCredentials));
-            dispatch(new createNewDb('vtemp'));
-            dispatch(new uploadNewDb('vtemp', $dbCredentials, $profile->path_temp));
-
-            $tables = DB::connection()->select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'vtemp'");
+            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", $db['name'], $dbCredentials));
+            dispatch(new createNewDb($slug));
+            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
+            $tables = DB::connection()->select("SELECT table_name FROM information_schema.tables WHERE table_schema = '{$slug}'");
 
             foreach ($tables as $table)
             {
-                $table = 'vtemp.'.$table->table_name;
+                $table = $slug.'.'.$table->table_name;
                 $row_count = 0;
                 if (!strripos($table,'cerber') && !strripos($table,'wp_icl_translation_status') && DB::table($table)->count() > 0)
                 {
@@ -90,13 +89,6 @@ class VersionsController extends Controller
                 }
 
             }
-            dispatch(new dumpSourceDb("{$profile->path_temp}{$slug}.sql", 'vtemp', $dbCredentials));
-            dispatch(new dropDb('temp'));
-            dispatch(new deleteDbFile('temp',$profile));
-            dispatch(new findAndReplaceInDbDump("{$profile->path_temp}{$slug}.sql", $profile));
-            dispatch(new createNewDb($slug));
-            dispatch(new uploadNewDb($slug, $dbCredentials, $profile->path_temp));
-
 
         } catch (\Exception $e) {
             $this->delete($version);
